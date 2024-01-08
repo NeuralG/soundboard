@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getStorage, uploadBytes, ref  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getStorage, uploadBytes, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,32 +15,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getStorage(app);
 
-//const soundsOneRef = ref(db, 'sounds/One.mp3')
+const form = document.getElementById("form");
+const mainGrid = document.getElementById("main-grid");
 
+// Function to fetch existing sound files and create elements
+async function fetchAndCreateSoundElements() {
+  const storageRef = ref(db);
 
-const form = document.getElementById("form")
-const mainGrid = document.getElementById("main-grid")
+  // List all items in the storage
+  const storageItems = await listAll(storageRef);
 
-form.addEventListener("submit",(e)=>{
-    e.preventDefault()
-    const formData = new FormData(form)
-    const file = formData.get("file")
-    const name = formData.get("name")
+  // Loop through the items and create elements for each sound
+  for (const item of storageItems.items) {
+    const downloadURL = await getDownloadURL(item);
+    const audioPlayer = createAudioPlayer(downloadURL, item.name);
 
+    // Add play button
+    const playButton = document.createElement("button");
+    playButton.textContent = `${item.name}`;
+    playButton.addEventListener("click", () => playSound(audioPlayer));
+
+    // Add elements to the grid
+    mainGrid.appendChild(playButton);
+    mainGrid.appendChild(audioPlayer);
+  }
+}
+
+// Fetch and create sound elements when the page loads
+fetchAndCreateSoundElements();
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(form);
+  const file = formData.get("file");
+  const name = formData.get("name");
+
+  // Check if the file is an audio file
+  if (file && file.type.startsWith("audio/")) {
     const fileRef = ref(db, name);
 
-    uploadBytes(fileRef, file)
-    console.log(file)
-    console.log(name)
-    
-})
+    await uploadBytes(fileRef, file);
+    console.log(`File ${name} uploaded successfully`);
 
-/* THE FILE UPLOADED SUCCESSFULLY*/
- 
-fetch('https://firebasestorage.googleapis.com/v0/b/soundboard-noralg1.appspot.com/o/')
-                .then(data => data.json())
-                .then(response => console.log(response.items))
+    // Update the sound player with the new file URL
+    const downloadURL = await getDownloadURL(fileRef);
+    const audioPlayer = createAudioPlayer(downloadURL, name);
 
-for (let i=0;i<10;i++){
-    mainGrid.innerHTML += `<button>SOUND1</button>`
+    // Add play button
+    const playButton = document.createElement("button");
+    playButton.textContent = `${name}`;
+    playButton.addEventListener("click", () => playSound(audioPlayer));
+
+    // Add elements to the grid
+    mainGrid.appendChild(playButton);
+    mainGrid.appendChild(audioPlayer);
+  } else {
+    console.log("Invalid file type. Please upload an audio file.");
+  }
+});
+
+// Function to play the sound
+function playSound(audioPlayer) {
+  audioPlayer.play();
+}
+
+// Function to create an audio player
+function createAudioPlayer(src, id) {
+  const audioPlayer = document.createElement("audio");
+  audioPlayer.src = src;
+  audioPlayer.id = `audio-player-${id}`;
+  audioPlayer.controls = true;
+  return audioPlayer;
 }
