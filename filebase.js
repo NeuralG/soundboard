@@ -18,6 +18,8 @@ const db = getStorage(app);
 const form = document.getElementById("form");
 const mainGrid = document.getElementById("main-grid");
 
+let currentlyPlayingAudio = null;
+
 // Function to fetch existing sound files and create elements
 async function fetchAndCreateSoundElements() {
   const storageRef = ref(db);
@@ -33,7 +35,7 @@ async function fetchAndCreateSoundElements() {
     // Add play button
     const playButton = document.createElement("button");
     playButton.textContent = `${item.name}`;
-    playButton.addEventListener("click", () => playSound(audioPlayer));
+    playButton.addEventListener("click", () => togglePlay(audioPlayer));
 
     // Add elements to the grid
     mainGrid.appendChild(playButton);
@@ -64,7 +66,7 @@ form.addEventListener("submit", async (e) => {
     // Add play button
     const playButton = document.createElement("button");
     playButton.textContent = `${name}`;
-    playButton.addEventListener("click", () => playSound(audioPlayer));
+    playButton.addEventListener("click", () => togglePlay(audioPlayer));
 
     // Add elements to the grid
     mainGrid.appendChild(playButton);
@@ -74,9 +76,22 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Function to play the sound
-function playSound(audioPlayer) {
-  audioPlayer.play();
+// Function to play or stop the sound
+function togglePlay(audioPlayer) {
+  if (currentlyPlayingAudio && currentlyPlayingAudio !== audioPlayer) {
+    // Stop the currently playing audio
+    currentlyPlayingAudio.pause();
+    currentlyPlayingAudio.currentTime = 0;
+  }
+
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    currentlyPlayingAudio = audioPlayer;
+  } else {
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+    currentlyPlayingAudio = null;
+  }
 }
 
 // Function to create an audio player
