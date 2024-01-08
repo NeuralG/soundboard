@@ -1,0 +1,48 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+
+*{
+    font-family: inherit;
+}
+
+body{
+    background-color: pink;
+}
+
+.wrapper{
+    height: 100%;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    flex-direction: column;
+}
+
+form{
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: 
+    "file submit"
+    "name submit";
+    gap: 1em;
+    margin: 3em auto 3em auto;
+}
+
+form input{
+    padding: 1em 2em;
+    background-color: whitesmoke;
+}
+
+
+.main-grid{
+    gap:30px;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+button{
+    margin: auto;
+    padding: 1em 2em;
+}
