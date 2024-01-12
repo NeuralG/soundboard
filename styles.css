@@ -1,70 +1,103 @@
-*,*::after,*::before{
-    box-sizing: border-box;
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
+
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+	font-family: "Comic Neue", cursive;
 }
 
-*{
-    font-family: inherit;
+body {
+	background-color: pink;
 }
 
-body{
-    background-color: pink;
+.wrapper {
+	height: 100%;
+	display: flex;
+	justify-content: baseline;
+	align-items: center;
+	flex-direction: column;
 }
 
-.wrapper{
-    height: 100%;
-    display: flex;
-    justify-content: baseline;
-    align-items: center;
-    flex-direction: column;
+form {
+	max-width: 600px;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-areas:
+		"file submit"
+		"name submit";
+	gap: 1em;
+	margin: 3em auto 3em auto;
 }
 
-form{
-    max-width: 600px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-areas: 
-    "file submit"
-    "name submit";
-    gap: 1em;
-    margin: 3em auto 3em auto;
+form input {
+	padding: 1em 2em;
+	background-color: whitesmoke;
 }
 
-form input{
-    padding: 1em 2em;
-    background-color: whitesmoke;
+.main-grid {
+	gap: 30px;
+	max-width: 800px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-
-.main-grid{
-    gap:30px;
-    max-width: 800px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+button {
+	margin: auto;
+	padding: 1em 2em;
 }
 
-button{
-    margin: auto;
-    padding: 1em 2em;
+form input {
+	border-radius: 15px;
+	border: 0;
+	box-shadow: 0px 0px 5px papayawhip;
 }
 
-audio{
-    display: none;
+form input[name="name"] {
+	text-align: center;
+	font-size: 1.4em;
 }
 
-@media (max-width:1000px){
-    .main-grid{
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
+form input[name="name"]:active {
+	border: 0;
+	outline: 0;
+	box-shadow: 0;
 }
 
-@media (max-width:700px){
-    .main-grid{
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+form input[type="submit"]:hover {
+	background-color: aquamarine;
+	cursor: pointer;
 }
 
-@media (max-width:500px){
-    .main-grid{
-        grid-template-columns: 1fr 1fr;
-    }
+.main-grid button {
+	border-radius: 20px;
+	border: 0;
+	box-shadow: 5px 5px 0px salmon;
+}
+
+.main-grid button:hover {
+	background-color: bisque;
+	cursor: pointer;
+}
+
+audio {
+	display: none;
+}
+
+@media (max-width: 1000px) {
+	.main-grid {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+}
+
+@media (max-width: 700px) {
+	.main-grid {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+
+@media (max-width: 500px) {
+	.main-grid {
+		grid-template-columns: 1fr 1fr;
+	}
 }
