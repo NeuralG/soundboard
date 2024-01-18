@@ -3,13 +3,14 @@ import { getStorage, uploadBytes, ref, listAll, getDownloadURL } from "https://w
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC-7JNegL_AO4qSMUgrckyr0xVGhAUuU7E",
-  authDomain: "soundboard-noralg1.firebaseapp.com",
-  projectId: "soundboard-noralg1",
-  storageBucket: 'soundboard-noralg1.appspot.com',
-  messagingSenderId: "772683663137",
-  appId: "1:772683663137:web:01c127d0fe70dab319a060"
-};
+    apiKey: "AIzaSyBBsj7Gcn6RrstjZixvG8vmscL0-XLl_yk",
+    authDomain: "safesoundboarddb.firebaseapp.com",
+    projectId: "safesoundboarddb",
+    storageBucket: "safesoundboarddb.appspot.com",
+    messagingSenderId: "697854367548",
+    appId: "1:697854367548:web:1cf1b0002e8db4e89f7039",
+    measurementId: "G-8086LZVZH3"
+  };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
